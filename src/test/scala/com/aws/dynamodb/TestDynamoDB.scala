@@ -1,6 +1,11 @@
 package com.aws.dynamodb
 
-import com.amazonaws.services.dynamodbv2.model.ScalarAttributeType
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder
+import com.amazonaws.services.dynamodbv2.document.{DynamoDB, Item}
+import com.amazonaws.services.dynamodbv2.document.spec.{GetItemSpec, ScanSpec, UpdateItemSpec}
+import com.amazonaws.services.dynamodbv2.document.utils.ValueMap
+import com.amazonaws.services.dynamodbv2.model.{ConditionalOperator, ScalarAttributeType}
+import com.amazonaws.services.dynamodbv2.xspec.ScanExpressionSpec
 import com.aws.dynamodb.items.{DynamoDBItemsList, ExampleItemA, ExampleItemB, IDynamoDBItem}
 import com.aws.dynamodb.tables.DynamoDBTable
 import com.typesafe.scalalogging.LazyLogging
@@ -74,7 +79,7 @@ class TestDynamoDB extends LazyLogging {
     Assert.assertThat(dynamoDBClient.getTableNameList().contains(testTableName), is(false))
 
     Assert.assertThat(dynamoDBClient.createTableAndWaitActive(
-      testTableName,"hashKey",ScalarAttributeType.S,"rangeKey",ScalarAttributeType.S),
+      testTableName, "hashKey", ScalarAttributeType.S, "rangeKey", ScalarAttributeType.S),
       is(true))
     Assert.assertThat(dynamoDBClient.getTableNameList().contains(testTableName), is(true))
 
